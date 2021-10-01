@@ -6,4 +6,4 @@ The model by Taal et al. proposes a "perceptual distance measure" to quantify th
 
 This principal is used in the paper to define the "detectability" of the difference between internal representations. The detectability is given as follows:
 
-<img src="https://render.githubusercontent.com/render/math?math=D(x,\varepsilon) = c_2 \sum_{i=1}^64 .">
+<img src="https://render.githubusercontent.com/render/math?math=D(x,\varepsilon) = c_2 \sum_i .https://render.githubusercontent.com/render/math?math=D(x,\varepsilon)%20=%20c_2%20%20\sum_i%20\left|\left|\frac{|\varepsilon_i|^2%20\ast%20h_i}{|x_i|^2\ast%20h_s%20%2B%20c_1}\right|\right|_1.">
