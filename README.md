@@ -1,1 +1,1 @@
-# taal_perceptual_model
+# Implementation of Taal distortion detectability
