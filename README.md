@@ -10,6 +10,7 @@ This principal is used in the paper to define the "detectability" of the differe
 
 Here:
 * ![x](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+x): denotes the clean audio stimuli.
-* ![x-i](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+x_i): denotes the difference between the degraded and clean audio stimuli filtered by the ith auditory filter ![h_i](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+h_i)
+* ![x-i](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+x_i): denotes the difference between the degraded and clean audio stimuli filtered by the ith auditory filter.
 * ![\varepsilon](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Cdisplaystyle+%5Cvarepsilon): denotes the difference between the degraded and clean audio stimuli.
-* ![\varepsilon-i](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+%5Cvarepsilon_i): denotes the difference between the degraded and clean audio stimuli filtered by the ith auditory filter ![h_i](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+h_i) 
+* ![\varepsilon-i](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+%5Cvarepsilon_i): denotes the difference between the degraded and clean audio stimuli filtered by the ith auditory filter.
+* ![h-s](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+h_s): denotes a low-pass filter modeling the filtering of the inner hair cells.
