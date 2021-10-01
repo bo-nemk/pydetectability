@@ -6,7 +6,7 @@ The model by Taal et al. proposes a "perceptual distance measure" to quantify th
 
 This principal is used in the paper to define the "detectability" of the difference between internal representations. The detectability is given as follows:
 
-<img src="https://render.githubusercontent.com/render/math?math=\Large D(x,\varepsilon)%20=%20c_2%20%20\sum_i%20\left|\left|\frac{|\varepsilon_i|^2%20\ast%20h_i}{|x_i|^2\ast%20h_s%20%2B%20c_1}\right|\right|_1.">
+![D](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Cdisplaystyle++D%28x%2C%5Cvarepsilon%29+%3D+c_2+%5Csum_i+%5Cleft%7C%5Cleft%7C%5Cfrac%7B%7C%5Cvarepsilon_i%7C%5E2+%5Cast+h_i%7D%7B%7Cx_i%7C%5E2%5Cast+h_s+%2B+c_1%7D%5Cright%7C%5Cright%7C_1.)
 
 Here:
 * ![x](https://render.githubusercontent.com/render/math?math=%5Clarge+%5Ctextstyle+x): denotes the clean audio stimuli.
