@@ -25,7 +25,8 @@ class gammatone_filter_bank:
         for i in range(0, self.__N_filters):
             gammatone = gammatone_filter_frequency_response(self.__frequencies, self.__center_frequencies[i],
                     self.__filter_order).astype(complex)
-            self.filter_bank_freq[i] = gammatone * -1j
+            delay = np.exp(-1j * 2 * np.pi * (self.__N_time / 2) * np.arange(0, self.__N_freq) / self.__N_time)
+            self.filter_bank_freq[i] = gammatone * delay
             print(self.filter_bank_freq[i])
             self.filter_bank_time[i] = np.fft.irfft(self.filter_bank_freq[i], n=self.__N_time)
 
