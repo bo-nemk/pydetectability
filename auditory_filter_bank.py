@@ -16,8 +16,7 @@ class auditory_filter_bank:
         self.__filter_order = filter_order
 
         # Create filters
-        self.__gammatone_filter_bank = gammatone_filter_bank(self.__frequencies, self.__sampling_rate,
-                N_filters=self.__N_filters)
+        self.__gammatone_filter_bank = gammatone_filter_bank(self.__frequencies, self.__sampling_rate, N_filters=self.__N_filters)
         self.__outer_middle_ear_filter = outer_middle_ear_filter(self.__frequencies, self.__mapping)
 
         # Pre-allocate bank

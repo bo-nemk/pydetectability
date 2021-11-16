@@ -14,6 +14,7 @@ class gammatone_filter_bank:
 
         # calculate center frequencies
         self.__center_frequencies = erbspace(0, self.__sampling_rate / 2, self.__N_filters) 
+        print(self.__center_frequencies)
 
         # Pre-allocate bank
         self.filter_bank = np.zeros((self.__N_filters, self.__frequencies.size))

@@ -7,7 +7,7 @@ from signal_pressure_mapping import signal_pressure_mapping
 
 def test_outer_threshold_in_quiet():
     # Define problem parameters
-    N_fft = 10240
+    N_fft = 1024
     sampling_rate = 48000.0
     mapping = signal_pressure_mapping(1, 100)
 
