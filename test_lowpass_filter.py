@@ -16,7 +16,7 @@ def test_lowpass_filter_plot():
     time = np.linspace(0, N_fft / sampling_rate, N_fft)
 
     # Create lowpass filter
-    lowpass_filter_instance_freq = lowpass_filter(frequencies, cutoff_frequency, sampling_rate).filter
+    lowpass_filter_instance_freq = lowpass_filter(frequencies, cutoff_frequency, sampling_rate).filter_freq
     lowpass_filter_instance_time = np.fft.irfft(lowpass_filter_instance_freq, n=N_fft)
 
     # Create plots

@@ -9,7 +9,7 @@ def test_gammatone_filter_bank_plot():
     # Define problem parameters
     N_fft = 1024
     N_filters = 10
-    sampling_rate = 8000.0
+    sampling_rate = 48000.0
 
     # Define x-axis
     frequencies = np.fft.rfftfreq(N_fft, 1 / sampling_rate)

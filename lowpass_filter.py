@@ -10,13 +10,13 @@ class lowpass_filter:
         self.__sampling_rate = sampling_rate
 
         # Create filter
-        self.filter = self.frequency_response()
+        self.filter_freq = self.__frequency_response()
 
-    def a_factor(self):
+    def __a_factor(self):
         return -1 * np.exp(-2 * np.pi * self.__cutoff_frequency / self.__sampling_rate)
 
-    def frequency_response(self):
-        a = self.a_factor()
+    def __frequency_response(self):
+        a = self.__a_factor()
         return (1 + a) / np.sqrt(1 + a ** 2 + 2 * a * \
                 np.cos(2 * np.pi * self.__frequencies / self.__sampling_rate))
 

@@ -9,8 +9,8 @@ from signal_pressure_mapping import signal_pressure_mapping
 def test_auditory_filter_bank_plot():
     # Define problem parameters
     N_fft = 1024
-    N_filters = 10
-    sampling_rate = 8000.0
+    N_filters = 64
+    sampling_rate = 96000.0
     mapping = signal_pressure_mapping(1, 100)
 
     # Define x-axis
@@ -31,6 +31,7 @@ def test_auditory_filter_bank_plot():
     axs[0].set_xlabel("frequency [Hz]")
     axs[0].set_ylabel("amplitude [dB]")
     axs[0].set_xlim(min(frequencies[1:]), max(frequencies)) 
+    axs[0].set_ylim(-50, 150) 
 
     for auditory_filter_time in auditory_filter_bank_time:
         axs[1].plot(time, auditory_filter_time)
