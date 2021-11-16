@@ -16,8 +16,9 @@ def test_gammatone_filter_bank_plot():
     time = np.linspace(0, N_fft / sampling_rate, N_fft)
 
     # Create filter bank
-    gammatone_filter_bank_freq = gammatone_filter_bank(frequencies, sampling_rate, N_filters=N_filters).filter_bank
-    gammatone_filter_bank_time = np.fft.irfft(gammatone_filter_bank_freq)
+    filter_bank = gammatone_filter_bank(frequencies, sampling_rate, N_fft, N_filters=N_filters)
+    gammatone_filter_bank_freq = filter_bank.filter_bank_freq
+    gammatone_filter_bank_time = filter_bank.filter_bank_time
 
     # Create plots
     fig, axs = mpl.subplots(2)
@@ -28,14 +29,12 @@ def test_gammatone_filter_bank_plot():
     axs[0].set_title("Frequency Domain Gammatone Filters")
     axs[0].set_xlabel("frequency [Hz]")
     axs[0].set_ylabel("amplitude [dB]")
-    axs[0].set_xlim(min(frequencies[1:]), max(frequencies)) 
 
     for gammatone_filter_time in gammatone_filter_bank_time:
         axs[1].plot(time, gammatone_filter_time)
     axs[1].set_title("Time Domain Gammatone Filter Bank")
     axs[1].xlabel = "frequency [Hz]"
     axs[1].ylabel = "amplitude"
-    axs[1].set_xlim(0, N_fft / sampling_rate) 
 
     fig.tight_layout()
     fig.savefig("plots/test_gammatone_filter_bank_plot.png")
