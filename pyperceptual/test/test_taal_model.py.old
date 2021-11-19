@@ -1,0 +1,72 @@
+import pytest 
+import matplotlib.pyplot as mpl
+import numpy as np
+
+from pyperceptual.models.taal_model import taal_model
+from pyperceptual.utility.signal_pressure_mapping import signal_pressure_mapping
+from pyperceptual.utility.threshold_in_quiet import threshold_in_quiet_db
+
+def test_taal_model():
+    # Define problem parameters
+    N_samples = 128
+    sampling_rate = 48000.0
+    N_filters = 64
+    mapping = signal_pressure_mapping(1, 1)
+    model = taal_model(sampling_rate, N_samples, mapping, N_filters=N_filters)
+
+    # Create masking threshold
+    x = np.zeros(N_samples)
+    threshold_freq, detectability = model.masking_threshold(x)
+    gain = model.gain_function(x)
+
+    # Test
+    fig, axs = mpl.subplots(2,2)
+
+    axs[0,0].semilogx(model.frequency_axis, mapping.signal_to_pressure(threshold_freq))
+    axs[0,0].semilogx(model.frequency_axis, threshold_in_quiet_db(model.frequency_axis))
+    axs[0,0].set_title("Taal Model Masking Threshold")
+    axs[0,0].set_xlabel("frequency [Hz]")
+    axs[0,0].set_ylabel("amplitude [dB]")
+    axs[0,0].set_xlim(min(model.frequency_axis), max(model.frequency_axis)) 
+    axs[0,0].set_ylim(-20, 150) 
+
+    for filter_freq in model.auditory_filter_bank_freq:
+        axs[1,0].semilogx(model.convolved_frequency_axis, mapping.signal_to_pressure(filter_freq))
+    axs[1,0].set_title("Taal Model Auditory Filter Bank")
+    axs[1,0].set_xlabel("frequency [Hz]")
+    axs[1,0].set_ylabel("amplitude [dB]")
+    axs[1,0].set_xlim(min(model.frequency_axis), max(model.frequency_axis)) 
+    # axs[1,0].set_ylim(50, 250) 
+
+    for signal in model.masking_helper:
+        axs[0,1].semilogx(model.frequency_axis, mapping.signal_to_pressure(np.fft.rfft(signal)))
+    axs[0,1].set_title("Taal Model Auditory Filter Bank")
+    axs[0,1].set_xlabel("frequency [Hz]")
+    axs[0,1].set_ylabel("amplitude [dB]")
+    axs[0,1].set_xlim(min(model.frequency_axis), max(model.frequency_axis)) 
+    # axs[0,1].set_ylim(50, 250) 
+
+
+    axs[1,1].semilogx(model.frequency_axis, detectability)
+    axs[1,1].set_title("Taal Model Auditory Filter Bank")
+    axs[1,1].set_xlabel("frequency [Hz]")
+    axs[1,1].set_ylabel("detectability")
+    axs[1,1].set_xlim(min(model.frequency_axis), max(model.frequency_axis)) 
+
+    fig.tight_layout()
+    fig.savefig("plots/test_taal_model.png")
+
+
+
+    plts = np.sum(model.binsum, axis=2).transpose()
+    print(plts.shape)
+    for i in range(0, plts.shape[0]):
+        fig, axs = mpl.subplots(1)
+        axs.semilogx(model.frequency_axis, plts[i])
+        axs.set_title("Taal Model Auditory Filter Bank")
+        axs.set_xlabel("frequency [Hz]")
+        axs.set_ylabel("amplitude [dB]")
+        fig.tight_layout()
+        # fig.savefig(f"plots/test_taal_model_detectability_decomp_{i}.png")
+    # axs[2,1].set_xlim(min(model.frequency_axis), max(model.frequency_axis)) 
+
