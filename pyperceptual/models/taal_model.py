@@ -15,10 +15,7 @@ np.seterr(divide='ignore')
 class taal_model:
     def __apply_auditory_filter_bank(self, s):
         assert(s.size == self.__N_samples)
-        # WTF
         return [np.fft.irfft(np.fft.rfft(s) * self.__auditory_filter_bank_freq[i], n=self.__N_samples) for i in range(0, self.__N_filters)]
-        # return [np.fft.irfft(np.fft.rfft(s, n=self.__N_convolved) * self.__auditory_filter_bank_freq[i],
-        #     n=self.__N_convolved) for i in range(0, self.__N_filters)]
 
     def __apply_lowpass_filter(self, s):
         return np.fft.irfft(np.fft.rfft(s) * self.__lowpass_filter_freq, n=self.__N_samples)
@@ -70,13 +67,25 @@ class taal_model:
             self.__detectability(sine_zero, sine_threshold_in_quiet, 1, C2), C2) - 1, 0, 1000)
         self.C1 = self.__detectability(sine_zero, sine_threshold_in_quiet, 1, self.C2)
 
-    def detectability(self, x, e):
+    def detectability_direct(self, x, e):
         assert(e.size == self.__N_samples)
         assert(x.size == self.__N_samples)
         return self.__detectability(x, e, self.C1, self.C2)
 
+    def gain(self, x, e):
+        assert(e.size == self.__N_samples)
+        assert(x.size == self.__N_samples)
+        return np.sqrt(self.__apply_lowpass_filter(self.C2 / (self.__internal_representation(x) + self.C1)))
+
+    def detectability_gain(self, x, e):
+        assert(e.size == self.__N_samples)
+        assert(x.size == self.__N_samples)
+        gi = self.gain(x, e)
+        ei = self.__apply_auditory_filter_bank(e)
+        return np.power(np.linalg.norm(gi * ei), 2.0).sum()
+
     def masking_threshold(self, x):
         assert(x.size == self.__N_samples)
         test_sinusoids = [np.cos(2 * np.pi * self.frequency_axis[i] / self.__sampling_rate * np.arange(0,self.__N_samples)) for i in range(0, self.frequency_axis.size)]
-        D = [self.detectability(x, e) for e in test_sinusoids]
+        D = [self.detectability_direct(x, e) for e in test_sinusoids]
         return 1 / np.sqrt(D)

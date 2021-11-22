@@ -13,7 +13,7 @@ from pyperceptual.utility.threshold_in_quiet import threshold_in_quiet_db
 def test_masking_curve():
     # Define problem parameters
     sampling_rate = 48000.0
-    N_samples = int(0.2 * sampling_rate)
+    N_samples = int(0.002 * sampling_rate)
     N_filters = 64
 
     mapping = signal_pressure_mapping(1, 100)
