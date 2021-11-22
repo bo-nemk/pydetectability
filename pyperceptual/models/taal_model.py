@@ -39,12 +39,12 @@ class taal_model:
         self.__filter_order = filter_order
         self.__N_samples = N_samples
         self.__N_filters = N_filters
-        self.__N_convolved = 2 * self.__N_samples - 1
+        # self.__N_convolved = 2 * self.__N_samples - 1
         self.__mapping = mapping
 
         # Compute frequency axis
         self.frequency_axis = np.fft.rfftfreq(self.__N_samples, d=(1 / self.__sampling_rate))
-        self.convolved_frequency_axis = np.fft.rfftfreq(self.__N_convolved, d=(1 / self.__sampling_rate))
+        # self.convolved_frequency_axis = np.fft.rfftfreq(self.__N_convolved, d=(1 / self.__sampling_rate))
 
         # Compute ear filter bank
         # auditory_filter_bank_object = auditory_filter_bank(self.convolved_frequency_axis, self.__sampling_rate, self.__mapping, 
