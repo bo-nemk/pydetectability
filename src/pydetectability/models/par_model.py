@@ -31,7 +31,8 @@ class par_model:
         return amplitude * np.cos(2 * np.pi * rate / self.__sampling_rate * np.arange(0, self.__N_samples))
 
 
-    def __init__(self,sampling_rate : float, N_samples : int, mapping, N_filters : int = 64, filter_order : int = 4):
+    def __init__(self,sampling_rate : float, N_samples : int, mapping, N_filters : int = 64, filter_order : int = 4,
+            training_rate : int = 1000):
         # Map over input parameters
         self.__sampling_rate = sampling_rate
         self.__filter_order = filter_order
@@ -48,7 +49,6 @@ class par_model:
         self.auditory_filter_bank_freq = auditory_filter_bank_object.filter_bank_freq
         
         # Training
-        training_rate = 1000
         sine_zero = self.__sine(0, training_rate)
         sine_threshold_in_quiet = self.__sine(threshold_in_quiet(training_rate, self.__mapping), training_rate) 
         sine_masker = self.__sine(self.__mapping.pressure_to_signal(70), training_rate) 
@@ -88,13 +88,11 @@ class par_model:
         # Through the approximation in taal2012
         assert(x.size == self.__N_samples)
         gh = self.gain(x)
-        print(gh)
         return 1 / (gh * (self.frequency_axis.size))
 
 
 # Extension that has cvx methods
 class par_model_cvx(par_model):
-    # Assumes eh is a cvx expression...
-    def detectability_gain_cvx(self, x, eh):
-        gh = self.gain(x)
-        return cp.sum_squares(gh * eh)
+    # Assumes gh is a cvx parameter and eh is a cvx expression...
+    def detectability_gain_cvx(self, gh, eh):
+        return cp.sum_squares(cp.multiply(gh, eh))

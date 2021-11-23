@@ -30,7 +30,8 @@ class taal_model:
         return amplitude * np.cos(2 * np.pi * rate / self.__sampling_rate * np.arange(0, self.__N_samples))
 
 
-    def __init__(self,sampling_rate : float, N_samples : int, mapping, N_filters : int = 64, filter_order : int = 4):
+    def __init__(self,sampling_rate : float, N_samples : int, mapping, N_filters : int = 64, filter_order : int = 4,
+            training_rate : int = 1000):
         # Map over input parameters
         self.__sampling_rate = sampling_rate
         self.__filter_order = filter_order
@@ -51,7 +52,6 @@ class taal_model:
         self.lowpass_filter_freq = lowpass_filter_object.filter_freq 
 
         # Training
-        training_rate = 1000
         sine_zero = self.__sine(0, training_rate)
         sine_threshold_in_quiet = self.__sine(threshold_in_quiet(training_rate, self.__mapping), training_rate) 
         sine_masker = self.__sine(self.__mapping.pressure_to_signal(70), training_rate) 
