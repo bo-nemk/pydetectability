@@ -13,7 +13,7 @@ from pyperceptual.utility.threshold_in_quiet import threshold_in_quiet_db
 def test_masking_curve():
     # Define problem parameters
     sampling_rate = 48000.0
-    N_samples = int(0.002 * sampling_rate)
+    N_samples = int(0.2 * sampling_rate)
     N_filters = 64
 
     mapping = signal_pressure_mapping(1, 100)
@@ -49,12 +49,12 @@ def test_masking_curve():
     sine_signal = window * np.pad(sine[0 : int(N_samples / 2)], (int(N_samples / 2), 0))
     axs[1,0].plot(sine_signal, 'black')
 
-    axs[1,1].semilogx(frequency, threshold_in_quiet_db(frequency), 'black')
     axs[1,1].semilogx(frequency, mapping.signal_to_pressure( np.sqrt(2) * np.fft.rfft(sine_signal) / N_samples), 'k--',
             alpha=0.3)
+    axs[1,1].semilogx(frequency, threshold_in_quiet_db(frequency), 'black')
     axs[1,1].semilogx(frequency, mapping.signal_to_pressure(taal.masking_threshold(sine_signal)), '--')
     axs[1,1].semilogx(frequency, mapping.signal_to_pressure( par.masking_threshold(sine_signal)), '-.')
-    axs[1,1].legend(["Threshold in Quiet", "Taal Model", "Par Model"])
+    axs[1,1].legend(["Input Spectrum", "Threshold in Quiet", "Taal Model", "Par Model"])
     axs[1,1].hlines(38 - 3, 0, sampling_rate / 2, 'black')
     axs[1,1].hlines(50 - 3, 0, sampling_rate / 2, 'black')
     axs[1,1].set_xlim((100, max(frequency)))
@@ -69,12 +69,12 @@ def test_masking_curve():
     sine_signal = window * sine
     axs[2,0].plot(sine_signal, 'black')
 
-    axs[2,1].semilogx(frequency, threshold_in_quiet_db(frequency), 'black')
     axs[2,1].semilogx(frequency, mapping.signal_to_pressure( np.sqrt(2) * np.fft.rfft(sine_signal) / N_samples), 'k--',
             alpha=0.3)
+    axs[2,1].semilogx(frequency, threshold_in_quiet_db(frequency), 'black')
     axs[2,1].semilogx(frequency, mapping.signal_to_pressure(taal.masking_threshold(sine_signal)), '--')
     axs[2,1].semilogx(frequency, mapping.signal_to_pressure( par.masking_threshold(sine_signal)), '-.')
-    axs[2,1].legend(["Threshold in Quiet", "Taal Model", "Par Model"])
+    axs[2,1].legend(["Input Spectrum", "Threshold in Quiet", "Taal Model", "Par Model"])
     axs[2,1].hlines(38 - 3, 0, sampling_rate / 2, 'black')
     axs[2,1].hlines(50 - 3, 0, sampling_rate / 2, 'black')
     axs[2,1].set_xlim((100, max(frequency)))

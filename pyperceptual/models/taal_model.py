@@ -36,22 +36,17 @@ class taal_model:
         self.__filter_order = filter_order
         self.__N_samples = N_samples
         self.__N_filters = N_filters
-        # self.__N_convolved = 2 * self.__N_samples - 1
         self.__mapping = mapping
 
         # Compute frequency axis
         self.frequency_axis = np.fft.rfftfreq(self.__N_samples, d=(1 / self.__sampling_rate))
-        # self.convolved_frequency_axis = np.fft.rfftfreq(self.__N_convolved, d=(1 / self.__sampling_rate))
 
         # Compute ear filter bank
-        # auditory_filter_bank_object = auditory_filter_bank(self.convolved_frequency_axis, self.__sampling_rate, self.__mapping, 
-        #         self.__N_samples, N_filters=self.__N_filters, filter_order=self.__filter_order)
         auditory_filter_bank_object = auditory_filter_bank(self.frequency_axis, self.__sampling_rate, self.__mapping, 
                 self.__N_samples, N_filters=self.__N_filters, filter_order=self.__filter_order)
         self.__auditory_filter_bank_freq = auditory_filter_bank_object.filter_bank_freq
         
         # Compute lowpass filter
-        # lowpass_filter_object = lowpass_filter(self.convolved_frequency_axis, 1000, self.__sampling_rate)
         lowpass_filter_object = lowpass_filter(self.frequency_axis, 1000, self.__sampling_rate)
         self.__lowpass_filter_freq = lowpass_filter_object.filter_freq 
 
@@ -72,20 +67,32 @@ class taal_model:
         assert(x.size == self.__N_samples)
         return self.__detectability(x, e, self.C1, self.C2)
 
-    def gain(self, x, e):
-        assert(e.size == self.__N_samples)
+    def gain(self, x):
         assert(x.size == self.__N_samples)
         return np.sqrt(self.__apply_lowpass_filter(self.C2 / (self.__internal_representation(x) + self.C1)))
 
     def detectability_gain(self, x, e):
         assert(e.size == self.__N_samples)
         assert(x.size == self.__N_samples)
-        gi = self.gain(x, e)
+        gi = self.gain(x)
         ei = self.__apply_auditory_filter_bank(e)
         return np.power(np.linalg.norm(gi * ei), 2.0).sum()
 
-    def masking_threshold(self, x):
+    def masking_threshold_brute_force(self, x):
         assert(x.size == self.__N_samples)
         test_sinusoids = [np.cos(2 * np.pi * self.frequency_axis[i] / self.__sampling_rate * np.arange(0,self.__N_samples)) for i in range(0, self.frequency_axis.size)]
         D = [self.detectability_direct(x, e) for e in test_sinusoids]
         return 1 / np.sqrt(D)
+
+    def masking_threshold(self, x):
+        # Through the approximation in taal2012
+        assert(x.size == self.__N_samples)
+        window = sp.signal.windows.hann(self.__N_samples)
+        gi = self.gain(x)
+
+        t = np.zeros(self.frequency_axis.size)
+        for i in range(1, self.__N_filters):
+            p = np.fft.fft(np.power(window * gi[i], 2.0))
+            t = t + np.power(self.__auditory_filter_bank_freq[i], 2.0) * (0.5 * p[0] + np.real(p[0:2:self.__N_samples]))
+
+        return np.sqrt(1 / t)

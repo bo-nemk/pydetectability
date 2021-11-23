@@ -30,6 +30,4 @@ def test_detectability_gain_correspondance(model):
         sine_tq = sine(A_tq, freq)
         x = np.zeros(N_samples)
         D_direct = model.detectability_direct(x, sine_tq)
-        print(f"{D_direct}")
         D_gain = model.detectability_gain(x, sine_tq)
-        print(f"{D_gain}")

@@ -65,8 +65,9 @@ class par_model:
     def gain(self, x):
         assert(x.size == self.__N_samples)
         xh = np.fft.rfft(x)
-        return np.sqrt((np.power(self.__auditory_filter_bank_freq, 2.0) * self.Cs) / \
-            (np.tile(self.__internal_representation(xh).sum(axis=1), (self.frequency_axis.size, 1)).T + self.Ca))
+        return np.sqrt(((np.power(self.__auditory_filter_bank_freq, 2.0) * self.Cs) / \
+            (np.tile(self.__internal_representation(xh).sum(axis=1), (self.frequency_axis.size, 1)).T +
+                self.Ca)).sum(axis=0))
  
     def detectability_gain(self, x, e):
         assert(e.size == self.__N_samples)
@@ -75,8 +76,16 @@ class par_model:
         eh = np.fft.rfft(e)
         return np.power(np.linalg.norm(gh * eh), 2.0) 
 
-    def masking_threshold(self, x):
+    def masking_threshold_brute_force(self, x):
         assert(x.size == self.__N_samples)
         test_sinusoids = [np.cos(2 * np.pi * self.frequency_axis[i] / self.__sampling_rate * np.arange(0,self.__N_samples)) for i in range(0, self.frequency_axis.size)]
         D = [self.detectability_direct(x, e) for e in test_sinusoids]
         return 1 / np.sqrt(D)
+
+    def masking_threshold(self, x):
+        # Through the approximation in taal2012
+        assert(x.size == self.__N_samples)
+        gh = self.gain(x)
+        print(gh)
+        return 1 / (gh * (self.frequency_axis.size))
+
