@@ -2,7 +2,7 @@ import pytest
 import matplotlib.pyplot as mpl
 import numpy as np
 
-from pyperceptual.utility.gammatone_filter_bank import gammatone_filter_bank
+from pydetectability.utility.gammatone_filter_bank import gammatone_filter_bank
 
 # Create a test-plot of the low-pass filter
 def test_gammatone_filter_bank_plot():

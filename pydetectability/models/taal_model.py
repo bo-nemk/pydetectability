@@ -5,10 +5,10 @@ import scipy.optimize
 
 import matplotlib.pyplot as plt
 
-from pyperceptual.utility.auditory_filter_bank import auditory_filter_bank
-from pyperceptual.utility.signal_pressure_mapping import signal_pressure_mapping
-from pyperceptual.utility.lowpass_filter import lowpass_filter
-from pyperceptual.utility.threshold_in_quiet import threshold_in_quiet
+from pydetectability.utility.auditory_filter_bank import auditory_filter_bank
+from pydetectability.utility.signal_pressure_mapping import signal_pressure_mapping
+from pydetectability.utility.lowpass_filter import lowpass_filter
+from pydetectability.utility.threshold_in_quiet import threshold_in_quiet
 
 np.seterr(divide='ignore')
 

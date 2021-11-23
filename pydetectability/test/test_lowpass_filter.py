@@ -2,7 +2,7 @@ import pytest
 import matplotlib.pyplot as mpl
 import numpy as np
 
-from pyperceptual.utility.lowpass_filter import lowpass_filter
+from pydetectability.utility.lowpass_filter import lowpass_filter
 
 # Create a test-plot of the low-pass filter
 def test_lowpass_filter_plot():

@@ -2,8 +2,8 @@ import pytest
 import matplotlib.pyplot as mpl
 import numpy as np
 
-from pyperceptual.utility.threshold_in_quiet import threshold_in_quiet_db, threshold_in_quiet
-from pyperceptual.utility.signal_pressure_mapping import signal_pressure_mapping
+from pydetectability.utility.threshold_in_quiet import threshold_in_quiet_db, threshold_in_quiet
+from pydetectability.utility.signal_pressure_mapping import signal_pressure_mapping
 
 def test_outer_threshold_in_quiet():
     # Define problem parameters

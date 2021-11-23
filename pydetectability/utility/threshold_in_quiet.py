@@ -1,7 +1,7 @@
 import numpy as np
 import scipy as sp
 
-from pyperceptual.utility.signal_pressure_mapping import signal_pressure_mapping
+from pydetectability.utility.signal_pressure_mapping import signal_pressure_mapping
 
 def threshold_in_quiet_db(frequencies: float):
      return 3.64 * np.power(frequencies / 1000, -0.8) - 6.5 * \

@@ -2,8 +2,8 @@ import pytest
 import matplotlib.pyplot as mpl
 import numpy as np
 
-from pyperceptual.utility.outer_middle_ear_filter import outer_middle_ear_filter
-from pyperceptual.utility.signal_pressure_mapping import signal_pressure_mapping
+from pydetectability.utility.outer_middle_ear_filter import outer_middle_ear_filter
+from pydetectability.utility.signal_pressure_mapping import signal_pressure_mapping
 
 # Create a test-plot of the low-pass filter
 def test_outer_middle_ear_filter_plot():

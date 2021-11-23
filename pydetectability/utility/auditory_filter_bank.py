@@ -1,9 +1,9 @@
 import numpy as np
 import scipy as sp
 
-from pyperceptual.utility.signal_pressure_mapping import signal_pressure_mapping
-from pyperceptual.utility.gammatone_filter_bank import gammatone_filter_bank
-from pyperceptual.utility.outer_middle_ear_filter import outer_middle_ear_filter
+from pydetectability.utility.signal_pressure_mapping import signal_pressure_mapping
+from pydetectability.utility.gammatone_filter_bank import gammatone_filter_bank
+from pydetectability.utility.outer_middle_ear_filter import outer_middle_ear_filter
 
 class auditory_filter_bank:
     def __init__(self, frequencies: float, sampling_rate: float, mapping: signal_pressure_mapping, \

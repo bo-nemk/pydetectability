@@ -2,9 +2,9 @@ import pytest
 import matplotlib.pyplot as mpl
 import numpy as np
 
-from pyperceptual.utility.auditory_filter_bank import auditory_filter_bank
-from pyperceptual.utility.signal_pressure_mapping import signal_pressure_mapping
-from pyperceptual.utility.threshold_in_quiet import threshold_in_quiet_db
+from pydetectability.utility.auditory_filter_bank import auditory_filter_bank
+from pydetectability.utility.signal_pressure_mapping import signal_pressure_mapping
+from pydetectability.utility.threshold_in_quiet import threshold_in_quiet_db
 
 # Create a test-plot of the auditory filter bank
 def test_auditory_filter_bank_plot():

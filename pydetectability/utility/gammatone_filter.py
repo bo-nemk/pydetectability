@@ -2,7 +2,7 @@ import numpy as np
 import scipy as sp
 
 from scipy.special import factorial, factorial2
-from pyperceptual.utility.perceptual_helpers import frequencies_to_erb
+from pydetectability.utility.perceptual_helpers import frequencies_to_erb
 
 def gammatone_filter_magnitude_response(frequencies : float, center_frequency : float, filter_order : int):
     sq = np.power(2, filter_order - 1)

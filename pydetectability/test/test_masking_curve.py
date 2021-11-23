@@ -5,10 +5,10 @@ import numpy as np
 import scipy as sp 
 import scipy.signal.windows
 
-from pyperceptual.models.taal_model import taal_model
-from pyperceptual.models.par_model import par_model
-from pyperceptual.utility.signal_pressure_mapping import signal_pressure_mapping
-from pyperceptual.utility.threshold_in_quiet import threshold_in_quiet_db
+from pydetectability.models.taal_model import taal_model
+from pydetectability.models.par_model import par_model
+from pydetectability.utility.signal_pressure_mapping import signal_pressure_mapping
+from pydetectability.utility.threshold_in_quiet import threshold_in_quiet_db
 
 def test_masking_curve():
     # Define problem parameters

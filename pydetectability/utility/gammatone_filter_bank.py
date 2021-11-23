@@ -1,8 +1,8 @@
 import numpy as np
 import scipy as sp
 
-from pyperceptual.utility.gammatone_filter import gammatone_filter_magnitude_response
-from pyperceptual.utility.perceptual_helpers import erbspace
+from pydetectability.utility.gammatone_filter import gammatone_filter_magnitude_response
+from pydetectability.utility.perceptual_helpers import erbspace
 
 class gammatone_filter_bank:
     def __init__(self, frequencies : float, sampling_rate: float, N_samples: int, N_filters: int = 64, filter_order :
