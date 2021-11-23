@@ -15,10 +15,10 @@ np.seterr(divide='ignore')
 class taal_model:
     def __apply_auditory_filter_bank(self, s):
         assert(s.size == self.__N_samples)
-        return [np.fft.irfft(np.fft.rfft(s) * self.__auditory_filter_bank_freq[i], n=self.__N_samples) for i in range(0, self.__N_filters)]
+        return [np.fft.irfft(np.fft.rfft(s) * self.auditory_filter_bank_freq[i], n=self.__N_samples) for i in range(0, self.__N_filters)]
 
     def __apply_lowpass_filter(self, s):
-        return np.fft.irfft(np.fft.rfft(s) * self.__lowpass_filter_freq, n=self.__N_samples)
+        return np.fft.irfft(np.fft.rfft(s) * self.lowpass_filter_freq, n=self.__N_samples)
 
     def __internal_representation(self, s):
         return self.__apply_lowpass_filter(np.power(np.abs(self.__apply_auditory_filter_bank(s)), 2.0))
@@ -44,11 +44,11 @@ class taal_model:
         # Compute ear filter bank
         auditory_filter_bank_object = auditory_filter_bank(self.frequency_axis, self.__sampling_rate, self.__mapping, 
                 self.__N_samples, N_filters=self.__N_filters, filter_order=self.__filter_order)
-        self.__auditory_filter_bank_freq = auditory_filter_bank_object.filter_bank_freq
+        self.auditory_filter_bank_freq = auditory_filter_bank_object.filter_bank_freq
         
         # Compute lowpass filter
         lowpass_filter_object = lowpass_filter(self.frequency_axis, 1000, self.__sampling_rate)
-        self.__lowpass_filter_freq = lowpass_filter_object.filter_freq 
+        self.lowpass_filter_freq = lowpass_filter_object.filter_freq 
 
         # Training
         training_rate = 1000
@@ -93,6 +93,6 @@ class taal_model:
         t = np.zeros(self.frequency_axis.size)
         for i in range(1, self.__N_filters):
             p = np.fft.fft(np.power(window * gi[i], 2.0))
-            t = t + np.power(self.__auditory_filter_bank_freq[i], 2.0) * (0.5 * p[0] + np.real(p[0:2:self.__N_samples]))
+            t = t + np.power(self.auditory_filter_bank_freq[i], 2.0) * (0.5 * p[0] + np.real(p[0:2:self.__N_samples]))
 
         return np.sqrt(1 / t)

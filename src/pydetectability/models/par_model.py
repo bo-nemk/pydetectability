@@ -3,6 +3,8 @@ import scipy as sp
 import scipy.signal
 import scipy.optimize
 
+import cvxpy as cp
+
 import matplotlib.pyplot as plt
 
 from pydetectability.utility.auditory_filter_bank import auditory_filter_bank
@@ -14,7 +16,7 @@ np.seterr(divide='ignore')
 class par_model:
     def __apply_auditory_filter_bank(self, s):
         assert(s.size == self.frequency_axis.size)
-        return [s * self.__auditory_filter_bank_freq[i] for i in range(0, self.__N_filters)]
+        return [s * self.auditory_filter_bank_freq[i] for i in range(0, self.__N_filters)]
 
     def __internal_representation(self, s):
         assert(s.size == self.frequency_axis.size)
@@ -43,7 +45,7 @@ class par_model:
         # Compute ear filter bank
         auditory_filter_bank_object = auditory_filter_bank(self.frequency_axis, self.__sampling_rate, self.__mapping, 
                 self.__N_samples, N_filters=self.__N_filters, filter_order=self.__filter_order)
-        self.__auditory_filter_bank_freq = auditory_filter_bank_object.filter_bank_freq
+        self.auditory_filter_bank_freq = auditory_filter_bank_object.filter_bank_freq
         
         # Training
         training_rate = 1000
@@ -65,7 +67,7 @@ class par_model:
     def gain(self, x):
         assert(x.size == self.__N_samples)
         xh = np.fft.rfft(x)
-        return np.sqrt(((np.power(self.__auditory_filter_bank_freq, 2.0) * self.Cs) / \
+        return np.sqrt(((np.power(self.auditory_filter_bank_freq, 2.0) * self.Cs) / \
             (np.tile(self.__internal_representation(xh).sum(axis=1), (self.frequency_axis.size, 1)).T +
                 self.Ca)).sum(axis=0))
  
@@ -89,3 +91,10 @@ class par_model:
         print(gh)
         return 1 / (gh * (self.frequency_axis.size))
 
+
+# Extension that has cvx methods
+class par_model_cvx(par_model):
+    # Assumes eh is a cvx expression...
+    def detectability_gain_cvx(self, x, eh):
+        gh = self.gain(x)
+        return cp.sum_squares(gh * eh)
