@@ -8,7 +8,7 @@ from pydetectability.utility.gammatone_filter_bank import gammatone_filter_bank
 def test_gammatone_filter_bank_plot():
     # Define problem parameters
     N_fft = 1024
-    N_filters = 10
+    N_filters = 64 
     sampling_rate = 48000.0
 
     # Define x-axis
@@ -23,8 +23,9 @@ def test_gammatone_filter_bank_plot():
     # Create plots
     fig, axs = mpl.subplots(3)
 
-    for gammatone_filter_time in gammatone_filter_bank_time:
-        axs[0].plot(frequencies, 20 * np.log10(np.abs(np.fft.rfft(gammatone_filter_time))))
+    # for gammatone_filter_time in gammatone_filter_bank_time:
+    #     axs[0].plot(frequencies, 20 * np.log10(np.abs(np.fft.rfft(gammatone_filter_time))))
+    axs[0].plot(frequencies, 20 * np.log10(np.abs(np.fft.rfft(sum(gammatone_filter_bank_time)))))
 
     axs[0].set_title("Amplitude Sampled Magnitude")
     axs[0].set_xlabel("frequency [Hz]")

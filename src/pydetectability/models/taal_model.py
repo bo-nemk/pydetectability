@@ -2,6 +2,7 @@ import numpy as np
 import scipy as sp 
 import scipy.signal
 import scipy.optimize
+import scipy.linalg
 
 import matplotlib.pyplot as plt
 
@@ -77,6 +78,14 @@ class taal_model:
         gi = self.gain(x)
         ei = self.__apply_auditory_filter_bank(e)
         return np.power(np.linalg.norm(gi * ei), 2.0).sum()
+
+    def detectability_gain_circmtx(self, x, e):
+        assert(e.size == self.__N_samples)
+        assert(x.size == self.__N_samples)
+        gi = self.gain(x)
+        auditory_filter_bank_time = np.fft.irfft(self.auditory_filter_bank_freq, axis=1, n=self.__N_samples)
+        return sum([np.power(np.linalg.norm(gi[i] * (sp.linalg.circulant(auditory_filter_bank_time[i]) @ e)), 2.0) for i
+            in range(0, self.__N_filters)])
 
     def masking_threshold_brute_force(self, x):
         assert(x.size == self.__N_samples)

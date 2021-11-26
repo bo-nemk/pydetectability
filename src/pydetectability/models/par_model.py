@@ -89,10 +89,3 @@ class par_model:
         assert(x.size == self.__N_samples)
         gh = self.gain(x)
         return 1 / (gh * (self.frequency_axis.size))
-
-
-# Extension that has cvx methods
-class par_model_cvx(par_model):
-    # Assumes gh is a cvx parameter and eh is a cvx expression...
-    def detectability_gain_cvx(self, gh, eh):
-        return cp.sum_squares(cp.multiply(gh, eh))

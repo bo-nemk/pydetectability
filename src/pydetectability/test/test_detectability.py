@@ -31,3 +31,20 @@ def test_detectability_gain_correspondance(model):
         x = np.zeros(N_samples)
         D_direct = model.detectability_direct(x, sine_tq)
         D_gain = model.detectability_gain(x, sine_tq)
+
+@pytest.mark.parametrize("model", [
+    taal_model(sampling_rate, N_samples, mapping, N_filters=N_filters),
+])
+def test_detectability_gain_correspondance(model):
+    frequency = model.frequency_axis
+
+    sine = lambda A, f : A * np.cos(2 * np.pi * f / sampling_rate * np.arange(0, N_samples))
+
+    for freq in frequency:
+        A_tq = threshold_in_quiet(freq, mapping)
+        sine_tq = sine(A_tq, freq)
+        x = np.zeros(N_samples)
+        D_direct = model.detectability_direct(x, sine_tq)
+        print(D_direct)
+        D_gain = model.detectability_gain_circmtx(x, sine_tq)
+        print(D_gain)
